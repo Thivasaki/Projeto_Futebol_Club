@@ -32,10 +32,8 @@ User.init({
     allowNull: false,
   },
 }, {
-  // ... Outras configs
   underscored: true,
   sequelize: db,
-  // modelName: 'example',
   timestamps: false,
 });
 
