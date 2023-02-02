@@ -5,5 +5,5 @@ export type TRes = {
 
 export interface IUserLogin {
   email: string,
-  password: string,
+  password?: string,
 }
