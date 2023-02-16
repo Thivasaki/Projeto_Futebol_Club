@@ -1,19 +1,16 @@
-import { TResArrayTeams, TRes } from '../interfaces';
+import { TResArrayMatches } from '../interfaces';
+import Match from '../database/models/MatchModel';
 import Team from '../database/models/TeamModel';
 
-export default class UserService {
-  public teamModel = Team;
+export default class MatchesService {
+  public matchModel = Match;
 
-  public async getAll(): Promise<TResArrayTeams> {
-    const findTeam = await this.teamModel.findAll();
-    return { type: undefined, message: findTeam };
-  }
-
-  public async getById(id: string): Promise<TRes> {
-    const findTeam = await this.teamModel.findByPk(id);
-    if (!findTeam) {
-      return { type: 'NOT_FOUND', message: 'The team dont exist' };
-    }
-    return { type: undefined, message: findTeam };
+  public async getAll(): Promise<TResArrayMatches> {
+    const findAllMatches = await this.matchModel.findAll({
+      include: [
+        { model: Team, as: 'homeTeam', attributes: { exclude: ['id'] } },
+        { model: Team, as: 'awayTeam', attributes: { exclude: ['id'] } }],
+    });
+    return { type: undefined, message: findAllMatches };
   }
 }

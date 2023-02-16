@@ -8,14 +8,28 @@ export type TResArrayTeams = {
   message: ITeam[],
 };
 
+export type TResArrayMatches = {
+  type?: string,
+  message: IMatch[],
+};
+
 export interface IUserLogin {
   email: string,
   password: string,
 }
 
 export interface ITeam {
-  id: number,
+  id?: number,
   teamName: string,
+}
+
+export interface IMatch {
+  id?: number,
+  homeTeamId: number,
+  homeTeamGoals: number,
+  awayTeamId: number,
+  awayTeamGoals: number,
+  inProgress: boolean,
 }
 
 export interface CustomPayload {

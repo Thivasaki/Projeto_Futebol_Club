@@ -1,25 +1,15 @@
 import { Request, Response } from 'express';
-import TeamsService from '../services/TeamsService';
+import MatchesService from '../services/MatchesService';
 
-export default class UserController {
-  public teamsService: TeamsService;
+export default class MatchesController {
+  public matchesService: MatchesService;
 
   constructor() {
-    this.teamsService = new TeamsService();
+    this.matchesService = new MatchesService();
   }
 
   public getAll = async (req: Request, res: Response) => {
-    const { message } = await this.teamsService.getAll();
-    res.status(200).json(message);
-  };
-
-  public getById = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const { type, message } = await this.teamsService.getById(id);
-    if (type) {
-      return res.status(401).json({ message });
-    }
-
+    const { message } = await this.matchesService.getAll();
     res.status(200).json(message);
   };
 }
