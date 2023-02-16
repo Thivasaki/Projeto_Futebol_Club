@@ -1,5 +1,6 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
+import * as jwt from 'jsonwebtoken';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
@@ -23,15 +24,17 @@ describe('Testes da rota "/login"', () => {
 
   let chaiHttpResponse: Response;
 
-  // after(()=>{
-  //   (User.findOne as sinon.SinonStub).restore();
-  // })
-
-  it('Teste para testar login feito com sucesso', async () => {
+  beforeEach( async() => {
     sinon
       .stub(User, "findOne")
       .resolves(mockUser as User);
+  })
 
+  afterEach(()=>{
+    (User.findOne as sinon.SinonStub).restore();
+  })
+
+  it('Teste para testar login feito com sucesso', async () => {
     const mockLogin = {
       email: 'user@user.com',
       password: 'secret_user',
@@ -45,80 +48,89 @@ describe('Testes da rota "/login"', () => {
     expect(chaiHttpResponse.status).to.have.equal(200);
   });
 
-  // it('Teste para testar login feito com senha errada', async () => {
-  //   const mockLogin = {
-  //     email: 'user@user.com',
-  //     password: 'potato',
-  //   }
+  it('Teste para testar login feito com senha errada', async () => {
+    const mockLogin = {
+      email: 'user@user.com',
+      password: 'potato',
+    }
 
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      .post('/login')
-  //      .send(mockLogin)
+    chaiHttpResponse = await chai
+       .request(app)
+       .post('/login')
+       .send(mockLogin)
 
-  //   expect(chaiHttpResponse.status).to.have.equal(401);
-  // });
+    expect(chaiHttpResponse.status).to.have.equal(401);
+  });
 
-  // it('Teste para testar login feito com email errada', async () => {
-  //   const mockLogin = {
-  //     email: 'potato',
-  //     password: 'secret_user',
-  //   }
+  it('Teste para testar login feito com email errada', async () => {
 
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      .post('/login')
-  //      .send(mockLogin)
+    const mockLogin = {
+      email: 'qwdqwd',
+      password: 'secret_user',
+    }
 
-  //   expect(chaiHttpResponse.status).to.have.equal(401);
-  // });
+    chaiHttpResponse = await chai
+       .request(app)
+       .post('/login')
+       .send(mockLogin)
 
-  // it('Teste para testar login feito sem senha', async () => {
-  //   const mockLogin = {
-  //     email: 'user@user.com',
-  //   }
+    expect(chaiHttpResponse.status).to.have.equal(401);
+  });
 
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      .post('/login')
-  //      .send(mockLogin)
+  it('Teste para testar login feito sem senha', async () => {
+    const mockLogin = {
+      email: 'user@user.com',
+    }
 
-  //   expect(chaiHttpResponse.status).to.have.equal(400);
-  // });
+    chaiHttpResponse = await chai
+       .request(app)
+       .post('/login')
+       .send(mockLogin)
 
-  // it('Teste para testar login feito sem email', async () => {
-  //   const mockLogin = {
-  //     password: 'potato',
-  //   }
+    expect(chaiHttpResponse.status).to.have.equal(400);
+  });
 
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      .post('/login')
-  //      .send(mockLogin)
+  it('Teste para testar login feito sem email', async () => {
+    const mockLogin = {
+      password: 'potato',
+    }
 
-  //   expect(chaiHttpResponse.status).to.have.equal(400);
-  // });
+    chaiHttpResponse = await chai
+       .request(app)
+       .post('/login')
+       .send(mockLogin)
 
-  // it('Teste para falha de autenticação de login', async () => {
-  //   const mockLogin = {
-  //     password: 'potato',
-  //   }
+    expect(chaiHttpResponse.status).to.have.equal(400);
+  });
 
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      .get('/login/validate')
+  it('Teste para falha de autenticação de login', async () => {
+    const mockLogin = {
+      password: 'potato',
+    }
 
-  //   expect(chaiHttpResponse.status).to.have.equal(401);
-  // });
+    chaiHttpResponse = await chai
+       .request(app)
+       .get('/login/validate')
 
-  // it('Teste para falha de autenticação de login', async () => {
-  //   const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjU0NTI3MTg5fQ.XS_9AA82iNoiVaASi0NtJpqOQ_gHSHhxrpIdigiT-fc'
+    expect(chaiHttpResponse.status).to.have.equal(401);
+  });
 
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      .get('/login/validate')
-  //      .set('Authorization', token)
+  it('Teste para autenticação de validação de login', async () => {
+    const userToken = {
+      data: {
+      role: 'user',
+      email: 'user@user.com',
+    }
+  }
+    sinon
+      .stub(jwt, "verify")
+      .resolves(userToken);
 
-  //   expect(chaiHttpResponse.status).to.have.equal(200);
-  // });
+    chaiHttpResponse = await chai
+       .request(app)
+       .get('/login/validate')
+       .set('Authorization', 'anytoken')
+
+    expect(chaiHttpResponse.status).to.have.equal(200);
+  });
 });

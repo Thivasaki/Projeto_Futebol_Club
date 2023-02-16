@@ -21,14 +21,14 @@ export const createToken = (user: IUserLogin, role: string): string => {
 };
 
 export const validateToken = async (req: Request, res: Response, next: NextFunction) => {
-  const token = req.header('Authorization');
+  const token = req.headers.authorization;
 
   if (!token) {
     return res.status(401).json({ message: 'Token not found' });
   }
 
   try {
-    const decoded = verify(token, secret);
+    const decoded = await verify(token, secret);
     (req as CustomRequest).payload = decoded;
     next();
   } catch (err) {

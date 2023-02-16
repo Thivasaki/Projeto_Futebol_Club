@@ -11,10 +11,10 @@ export default class UserService {
     const findUser = await this.userModel.findOne({ where: {
       email,
     } });
-    if (!findUser) {
+    if (!findUser || findUser.email !== email) {
       return { type: 'INVALID_INPUT', message: 'Incorrect email or password' };
     }
-    const checkPassword = bcrypt.compareSync(password, findUser.dataValues.password);
+    const checkPassword = bcrypt.compareSync(password, findUser.password);
     if (!checkPassword) {
       return { type: 'INVALID_INPUT', message: 'Incorrect email or password' };
     }
