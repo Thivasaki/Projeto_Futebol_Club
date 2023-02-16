@@ -1,13 +1,10 @@
 import { Router } from 'express';
-import { validateToken } from '../auth/jwtFunctions';
-import loginInputValidation from '../middleware/loginInputValidation';
-import UserController from '../controllers/UsersController';
+import TeamsController from '../controllers/TeamsController';
 
 const router = Router();
 
-const userController = new UserController();
+const teamsController = new TeamsController();
 
-router.post('/', loginInputValidation, userController.login);
-router.get('/validate', validateToken, userController.loginValidate);
+router.get('/', teamsController.getAll);
 
 export default router;

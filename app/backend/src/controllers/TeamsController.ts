@@ -1,27 +1,15 @@
 import { Request, Response } from 'express';
-import { CustomPayload } from '../interfaces';
-import UserService from '../services/UsersService';
-import { CustomRequest } from '../auth/jwtFunctions';
+import TeamsService from '../services/TeamsService';
 
 export default class UserController {
-  public userService: UserService;
+  public teamsService: TeamsService;
 
   constructor() {
-    this.userService = new UserService();
+    this.teamsService = new TeamsService();
   }
 
-  public login = async (req: Request, res: Response) => {
-    const user = req.body;
-    const { type, message } = await this.userService.login(user);
-    if (type) {
-      return res.status(401).json({ message });
-    }
-
-    res.status(200).json({ token: message });
-  };
-
-  public loginValidate = async (req: Request, res: Response) => {
-    const { payload } = req as CustomRequest;
-    res.status(200).json({ role: (payload as CustomPayload).data.role });
+  public getAll = async (req: Request, res: Response) => {
+    const { message } = await this.teamsService.getAll();
+    res.status(200).json(message);
   };
 }
