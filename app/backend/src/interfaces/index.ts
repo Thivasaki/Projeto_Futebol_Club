@@ -1,6 +1,6 @@
 export type TRes = {
   type?: string,
-  message: string,
+  message: string | ITeam,
 };
 
 export type TResArrayTeams = {
