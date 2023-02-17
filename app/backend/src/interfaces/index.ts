@@ -5,12 +5,17 @@ export type TRes = {
 
 export type TResArrayTeams = {
   type?: string,
-  message: ITeam[],
+  message: ITeam[] | ILeaderboard[],
 };
 
 export type TResArrayMatches = {
   type?: string,
   message: IMatch[],
+};
+
+export type TResArrayLeaderboard = {
+  type?: string,
+  message: ILeaderboard[],
 };
 
 export interface IUserLogin {
@@ -42,4 +47,32 @@ export interface CustomPayload {
     email:string,
     role:string
   }
+}
+
+export interface ITeamLeaderboard {
+  id: number,
+  teamName: string,
+  homeMatch?: IMatchLeaderboard[],
+  awayMatch?: IMatchLeaderboard[],
+
+}
+
+export interface IMatchLeaderboard {
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+
+}
+
+export interface ILeaderboard {
+  name: string,
+  totalPoints: number,
+  totalGames: number,
+  totalVictories: number,
+  totalDraws: number,
+  totalLosses: number,
+  goalsFavor: number,
+  goalsOwn: number,
+  goalsBalance: number,
+  efficiency: number,
+
 }
