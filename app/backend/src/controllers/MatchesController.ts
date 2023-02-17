@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { IMatch } from '../interfaces';
 import MatchesService from '../services/MatchesService';
 
 export default class MatchesController {
@@ -23,7 +24,12 @@ export default class MatchesController {
   };
 
   public addMatch = async (req: Request, res: Response) => {
-    const newMatch = req.body;
+    const newMatch: IMatch = req.body;
+    if (newMatch.awayTeamId === newMatch.homeTeamId) {
+      return res.status(422).json(
+        { message: 'It is not possible to create a match with two equal teams' },
+      );
+    }
     const { message } = await this.matchesService.addMatch(newMatch);
     res.status(201).json(message);
   };
