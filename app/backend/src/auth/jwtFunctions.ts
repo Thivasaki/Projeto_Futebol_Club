@@ -32,6 +32,6 @@ export const validateToken = async (req: Request, res: Response, next: NextFunct
     (req as CustomRequest).payload = decoded;
     next();
   } catch (err) {
-    return res.status(401).json({ message: 'Expired or invalid token' });
+    return res.status(401).json({ message: 'Token must be a valid token' });
   }
 };
