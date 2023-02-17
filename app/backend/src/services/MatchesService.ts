@@ -13,4 +13,28 @@ export default class MatchesService {
     });
     return { type: undefined, message: findAllMatches };
   }
+
+  public async getMatchByProgressTrue(): Promise<TResArrayMatches> {
+    const findAllMatches = await this.matchModel.findAll({
+      where: {
+        inProgress: true,
+      },
+      include: [
+        { model: Team, as: 'homeTeam', attributes: { exclude: ['id'] } },
+        { model: Team, as: 'awayTeam', attributes: { exclude: ['id'] } }],
+    });
+    return { type: undefined, message: findAllMatches };
+  }
+
+  public async getMatchByProgressFalse(): Promise<TResArrayMatches> {
+    const findAllMatches = await this.matchModel.findAll({
+      where: {
+        inProgress: false,
+      },
+      include: [
+        { model: Team, as: 'homeTeam', attributes: { exclude: ['id'] } },
+        { model: Team, as: 'awayTeam', attributes: { exclude: ['id'] } }],
+    });
+    return { type: undefined, message: findAllMatches };
+  }
 }
