@@ -1,6 +1,6 @@
 export type TRes = {
   type?: string,
-  message: string | ITeam,
+  message: string | ITeam | IMatch,
 };
 
 export type TResArrayTeams = {
@@ -29,7 +29,7 @@ export interface IMatch {
   homeTeamGoals: number,
   awayTeamId: number,
   awayTeamGoals: number,
-  inProgress: boolean,
+  inProgress?: boolean,
 }
 
 export interface CustomPayload {

@@ -1,4 +1,4 @@
-import { TResArrayMatches } from '../interfaces';
+import { IMatch, TRes, TResArrayMatches } from '../interfaces';
 import Match from '../database/models/MatchModel';
 import Team from '../database/models/TeamModel';
 
@@ -36,5 +36,11 @@ export default class MatchesService {
         { model: Team, as: 'awayTeam', attributes: { exclude: ['id'] } }],
     });
     return { type: undefined, message: findAllMatches };
+  }
+
+  public async addMatch(match: IMatch): Promise<TRes> {
+    console.log({ ...match, inProgress: true });
+    const newMatch = await this.matchModel.create({ ...match, inProgress: true });
+    return { type: undefined, message: newMatch };
   }
 }
