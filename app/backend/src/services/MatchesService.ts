@@ -39,8 +39,16 @@ export default class MatchesService {
   }
 
   public async addMatch(match: IMatch): Promise<TRes> {
-    console.log({ ...match, inProgress: true });
     const newMatch = await this.matchModel.create({ ...match, inProgress: true });
     return { type: undefined, message: newMatch };
+  }
+
+  public async patchMatch(id: string): Promise<TRes> {
+    await this.matchModel.update({
+      inProgress: false,
+    }, {
+      where: { id },
+    });
+    return { type: undefined, message: 'Finished' };
   }
 }
