@@ -4,6 +4,7 @@ import Team from '../database/models/TeamModel';
 
 export default class MatchesService {
   public matchModel = Match;
+  public teamModel = Team;
 
   public async getAll(): Promise<TResArrayMatches> {
     const findAllMatches = await this.matchModel.findAll({
@@ -39,6 +40,11 @@ export default class MatchesService {
   }
 
   public async addMatch(match: IMatch): Promise<TRes> {
+    const findAwayTeam = await this.teamModel.findByPk(match.awayTeamId);
+    const findHomeTeam = await this.teamModel.findByPk(match.homeTeamId);
+    if (!findAwayTeam || !findHomeTeam) {
+      return { type: 'NOT_FOUND', message: 'There is no team with such id!' };
+    }
     const newMatch = await this.matchModel.create({ ...match, inProgress: true });
     return { type: undefined, message: newMatch };
   }

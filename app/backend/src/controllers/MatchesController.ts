@@ -30,7 +30,11 @@ export default class MatchesController {
         { message: 'It is not possible to create a match with two equal teams' },
       );
     }
-    const { message } = await this.matchesService.addMatch(newMatch);
+
+    const { message, type } = await this.matchesService.addMatch(newMatch);
+    if (type === 'NOT_FOUND') {
+      return res.status(404).json({ message });
+    }
     res.status(201).json(message);
   };
 
