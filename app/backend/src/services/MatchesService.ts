@@ -1,4 +1,4 @@
-import { IMatch, TRes, TResArrayMatches } from '../interfaces';
+import { IMatch, IMatchGoals, TRes, TResArrayMatches } from '../interfaces';
 import Match from '../database/models/MatchModel';
 import Team from '../database/models/TeamModel';
 
@@ -53,6 +53,13 @@ export default class MatchesService {
     await this.matchModel.update({
       inProgress: false,
     }, {
+      where: { id },
+    });
+    return { type: undefined, message: 'Finished' };
+  }
+
+  public async patchMatchGoals(id: string, patchGoals: IMatchGoals): Promise<TRes> {
+    await this.matchModel.update(patchGoals, {
       where: { id },
     });
     return { type: undefined, message: 'Finished' };

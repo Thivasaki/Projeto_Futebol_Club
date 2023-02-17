@@ -32,6 +32,11 @@ export interface IMatch {
   inProgress?: boolean,
 }
 
+export interface IMatchGoals {
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+}
+
 export interface CustomPayload {
   data: {
     email:string,
