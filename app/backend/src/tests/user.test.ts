@@ -104,10 +104,6 @@ describe('Testes da rota "/login"', () => {
   });
 
   it('Teste para falha de autenticação de login', async () => {
-    const mockLogin = {
-      password: 'potato',
-    }
-
     chaiHttpResponse = await chai
        .request(app)
        .get('/login/validate')
