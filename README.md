@@ -1,4 +1,3 @@
-
 # Boas vindas ao repositório do Projeto Futebol Clube!
 
 Essa é um projeto providenciado pelo meu curso de programação web chamada Trybe com objetivos de aprendizado onde o projeto é em Fullstack e eu tive que fazer a aplicação do back-end enquanto o front-end era disponibilizado pelo curso. Por esse motivo, essa documentação vai estar focada no back-end que programei.
@@ -67,6 +66,11 @@ ou
  - Vá na raiz do front-end
   ```bash
   npm run start
+ ```
+6. Rodando testes de cubertura
+ - Vá na raiz do back-end
+ ```bash
+  npm run test:coverage
  ```
 
 ## Documentação da API
@@ -843,12 +847,15 @@ Exemplo de retorno:
 
 
 ## Aprendizados
-Num geral esse foi um projeto bem desafiador que tive que pedir auxilio tanto para os mentores do meu curso quanto alunos que já haviam finalizado o projeto e conserteza uma das minhas maiores conquistas como dev. Em suma, eu aprendi:
-- como
-- Placar com raking dos times
-- Tabela de jogos e sua manipulação
-- Autenticação de token e criptação de senha
-- Telas para administradores e clientes
+Num geral esse foi um projeto bem desafiador que tive que pedir auxilio tanto para os mentores do meu curso quanto alunos que já haviam finalizado o projeto e com certeza uma das minhas maiores conquistas como dev. Em suma, eu aprendi:
+- Fazer uma aplicação em CRUD utilizando Typescript e sequelize ao mesmo tempo
+- Criptografar informações sensíveis como senha
+- Autenticar e validar um JWT
+- Aplicar TDD durante o meu desenvolvimento
+- Fazer testes em uma aplicação em Typescript
+- Utilizar os fundamentos de POO e SOLID para criar classes responsivas
+
+Certamente ainda não está perfeita, acredito que exista muitos métodos complexos demais e a classe da Leaderboard, em específico, pode ser trabalhado e dividida em duas etapas, além de ter utilizado "any" como tipagem nos mocks de alguns testes.
 
 
 ## Feedback
